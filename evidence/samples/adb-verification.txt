@@ -1,0 +1,32 @@
+# MOTO EYE — REDACTED ADB verification transcript
+# Source: user-observed PowerShell output, 2026-11-04
+# Device serial intentionally redacted.
+
+> adb devices -l
+List of devices attached
+[REDACTED]    device product:ceres_c3 model:QUAD_CORE_A133_c3 device:ceres-c3 transport_id:1
+
+> adb shell getprop sys.boot_completed
+1
+
+> adb shell cat /proc/uptime
+667.73 2425.89
+
+> adb shell getprop ro.build.version.release
+10
+
+> adb shell id
+uid=0(root) gid=0(root) groups=0(root),1004(input),1007(log),1011(adb),1015(sdcard_rw),1028(sdcard_r),3001(net_bt_admin),3002(net_bt),3003(inet),3006(net_bw_stats),3009(readproc),3011(uhid) context=u:r:su:s0
+
+> adb shell wm size
+Physical size: 1280x720
+
+> adb shell wm density
+Physical density: 200
+
+> adb shell dumpsys SurfaceFlinger
+Display 0 (HWC display 0): no identification data
+
+> adb shell pm list packages -3
+package:com.estrongs.android.pop
+package:cn.goapk.market

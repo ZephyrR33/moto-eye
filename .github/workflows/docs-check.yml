@@ -1,0 +1,44 @@
+name: Documentation integrity
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check Markdown links and artifact policy
+        run: python tools/check_docs.py
+
+  validate-powershell:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Parse PowerShell scripts
+        shell: pwsh
+        run: |
+          $hasErrors = $false
+          Get-ChildItem -Recurse -Filter *.ps1 | ForEach-Object {
+            $tokens = $null
+            $parseErrors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$parseErrors) | Out-Null
+            if ($parseErrors.Count -gt 0) {
+              $hasErrors = $true
+              Write-Host "Parse errors in $($_.FullName)"
+              $parseErrors | ForEach-Object { Write-Host $_.ToString() }
+            }
+          }
+          if ($hasErrors) { exit 1 }
+          Write-Host 'All PowerShell scripts parsed successfully.'

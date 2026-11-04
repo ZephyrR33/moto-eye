@@ -1,0 +1,35 @@
+# Firmware images and vendor packages are distributed separately.
+*.img
+*.bin
+*.fw
+*.fex
+*.rar
+*.7z
+*.zip
+*.iso
+*.msi
+*.exe
+*.apk
+
+# Working data and potentially identifiable logs.
+work/
+local/
+private/
+logs/
+captures/
+*.dmp
+*.pcap
+*.pcapng
+
+# Editor / OS / Python.
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.venv/
+
+# Build output.
+dist/
+build/
